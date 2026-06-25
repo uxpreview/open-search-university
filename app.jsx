@@ -1477,12 +1477,13 @@ function App() {
 
   const hasMessages = messages.length > 0;
 
-  // Active recent item — derived from the current chat's chatLabel so it
-  // always matches the open conversation. Falls back to no-active on landing.
-  const activeChatLabel = messages[0]?.data?.chatLabel || null;
+  // Active recent item — matched to the open conversation's originating query
+  // so exactly one row highlights (multiple recents can resolve to the same
+  // answer template, so matching on chatLabel would light several at once).
+  const activeQuery = messages[0]?.query || null;
   const historyWithActive = HISTORY.map((h) => ({
     ...h,
-    active: activeChatLabel ? resolveAnswer(h.query).chatLabel === activeChatLabel : false
+    active: activeQuery ? h.query === activeQuery : false
   }));
 
   return (
