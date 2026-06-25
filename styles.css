@@ -6143,3 +6143,34 @@ body.body--locked { overflow: hidden; }
 }
 .rec-card__sent-check svg { width: 10px; height: 10px; stroke-width: 3; }
 
+
+/* === Answer call-to-action buttons (e.g. Apply / View program page) === */
+.answer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0 2px;
+}
+.answer-actions__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.answer-actions__btn svg { width: 16px; height: 16px; }
+.answer-actions__btn:hover { background: var(--bg-alt); border-color: var(--text-faint); }
+.answer-actions__btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.answer-actions__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }

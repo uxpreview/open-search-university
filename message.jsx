@@ -77,6 +77,24 @@ function ActionsRow() {
   );
 }
 
+/* Key call-to-action buttons for an answer (e.g. Apply / View program page) */
+function AnswerActions({ actions }) {
+  const items = actions || [];
+  if (!items.length) return null;
+  return (
+    <div className="answer-actions">
+      {items.map((a, i) => {
+        const Glyph = a.icon && Icon[a.icon];
+        const cls = 'answer-actions__btn' + (a.primary ? ' answer-actions__btn--primary' : '');
+        const inner = <>{Glyph ? Glyph() : null}<span>{a.label}</span></>;
+        return a.href
+          ? <a key={i} className={cls} href={a.href}>{inner}</a>
+          : <button key={i} className={cls} onClick={a.onClick}>{inner}</button>;
+      })}
+    </div>
+  );
+}
+
 const FOLLOWUPS_KEY = 'followups-collapsed';
 const followupsListeners = new Set();
 function getFollowupsCollapsed() {
@@ -213,6 +231,7 @@ function Message({ msg, onFollowUp, onSectionInView, isLast, idx, activeScope, i
       {status !== 'thinking' && (
         <div className="answer-block">
           <StreamingSummary tokens={msg.data.summary} done={status === 'done' || status === 'sections'} />
+          {(status === 'sections' || status === 'done') && <AnswerActions actions={msg.data.actions} />}
         </div>
       )}
       {(status === 'sections' || status === 'done') && (

@@ -80,6 +80,10 @@ function CampusCarousel({ items }) {
 const CS_PROGRAM = {
   query: 'Tell me about the Computer Science major',
   chatLabel: 'Computer Science (B.S.)',
+  actions: [
+    { label: 'Apply now', href: './computer-science.html#apply', primary: true, icon: 'GraduationCap' },
+    { label: 'View program page', href: './computer-science.html', icon: 'FileText' },
+  ],
   tabs: [
     { id: 'services', label: 'Programs', icon: 'BookOpen', count: 3 },
     { id: 'doctors', label: 'Faculty', icon: 'Person', count: 4 },
