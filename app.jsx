@@ -34,6 +34,10 @@ const SEARCH_INDEX = [
 { text: 'Mechanical Engineering degree', category: 'Program', scope: 'services' },
 { text: 'Online and hybrid programs', category: 'Program', scope: 'services' },
 { text: 'What courses will I take in CS?', category: 'Course', scope: 'conditions' },
+// Compare
+{ text: 'Compare Computer Science and Data Science', category: 'Compare', scope: 'services' },
+{ text: 'Computer Science vs Data Science', category: 'Compare', scope: 'services' },
+{ text: 'Difference between CS and Data Science', category: 'Compare', scope: 'services' },
 // Faculty
 { text: 'Who teaches in the CS department?', category: 'Faculty', scope: 'doctors' },
 { text: 'Computer Science faculty', category: 'Faculty', scope: 'doctors' },
@@ -65,7 +69,7 @@ const SEARCH_INDEX = [
 
 
 /* The five established demo chats navigable from search */
-const DEMO_QUERIES = new Set(['Tell me about the Computer Science major', 'How much does Meridian cost and what aid can I get?', 'What scholarships am I eligible for?', 'What courses will I take in CS?', 'Who teaches in the CS department?']);
+const DEMO_QUERIES = new Set(['Tell me about the Computer Science major', 'How much does Meridian cost and what aid can I get?', 'What scholarships am I eligible for?', 'What courses will I take in CS?', 'Who teaches in the CS department?', 'Compare Computer Science and Data Science', 'Computer Science vs Data Science']);
 
 function getSuggestions(text, scope) {
   const t = text.toLowerCase().trim();
@@ -95,18 +99,19 @@ function getSuggestions(text, scope) {
 
 /* Primary nav (the "categories" of search) */
 const PRIMARY_NAV = [
-{ id: 'program-finder', icon: 'Compass', label: 'Program Finder', kind: 'agent' },
-{ id: 'explore-majors', icon: 'BookOpen', label: 'Explore majors', kind: 'query', query: 'Tell me about the Computer Science major' },
-{ id: 'cost-aid', icon: 'DollarSign', label: 'Cost & aid', kind: 'query', query: 'How much does Meridian cost and what aid can I get?' },
-{ id: 'scholarships', icon: 'Award', label: 'Scholarships', kind: 'query', query: 'What scholarships am I eligible for?' }];
+{ id: 'degree-planner', icon: 'GraduationCap', label: 'Degree Planner', kind: 'agent' },
+{ id: 'virtual-advisor', icon: 'Users', label: 'Virtual Advisor', kind: 'agent' },
+{ id: 'financial-aid', icon: 'DollarSign', label: 'Financial Aid Assistant', kind: 'agent' },
+{ id: 'career-dreamer', icon: 'Compass', label: 'Career Dreamer', kind: 'agent' },
+{ id: 'visit-planner', icon: 'Calendar', label: 'Visit Planner', kind: 'agent' }];
 
 
 /* Recent chats — every entry maps to one of our existing result flows */
 const HISTORY = [
 { id: 'h1', q: 'Computer Science major', query: 'Tell me about the Computer Science major' },
-{ id: 'h2', q: 'Cost & financial aid', query: 'How much does Meridian cost and what aid can I get?' },
-{ id: 'h3', q: 'Scholarships I can earn', query: 'What scholarships am I eligible for?' },
-{ id: 'h4', q: 'CS course sequence', query: 'What courses will I take in CS?' },
+{ id: 'h2', q: 'CS vs Data Science', query: 'Compare Computer Science and Data Science' },
+{ id: 'h3', q: 'Cost & financial aid', query: 'How much does Meridian cost and what aid can I get?' },
+{ id: 'h4', q: 'Scholarships I can earn', query: 'What scholarships am I eligible for?' },
 { id: 'h5', q: 'CS faculty', query: 'Who teaches in the CS department?' },
 { id: 'h6', q: 'Net price & aid', query: 'What is the net price after aid?' }];
 
@@ -117,9 +122,11 @@ const RESPONSE_MODES = [
 
 /* Agents listed in the chat input's "+" menu. IDs map to pickAgent(). */
 const ADD_MENU_AGENTS = [
-{ id: 'program-finder', icon: 'Compass', label: 'Program Finder' },
-{ id: 'explore-majors', icon: 'BookOpen', label: 'Explore majors' },
-{ id: 'cost-aid', icon: 'DollarSign', label: 'Cost & aid' }];
+{ id: 'degree-planner', icon: 'GraduationCap', label: 'Degree Planner' },
+{ id: 'virtual-advisor', icon: 'Users', label: 'Virtual Advisor' },
+{ id: 'financial-aid', icon: 'DollarSign', label: 'Financial Aid Assistant' },
+{ id: 'career-dreamer', icon: 'Compass', label: 'Career Dreamer' },
+{ id: 'visit-planner', icon: 'Calendar', label: 'Visit Planner' }];
 
 
 
@@ -949,7 +956,7 @@ function LeftRail({ history, onNewConv, onPickHistory, collapsed, onToggleCollap
 
 /* === Main header (Search ⌄ left) === */
 function MainHeader({ mode, onModeChange }) {
-  const labels = { search: 'Search', 'program-finder': 'Program Finder', 'explore-majors': 'Explore majors', 'cost-aid': 'Cost & aid', 'profile': 'Profile', 'care-profile': 'Academic profile', 'preferences': 'Search preferences', 'settings': 'Settings', 'saved': 'Saved', 'projects': 'Collections', 'projects:new': 'Collections' };
+  const labels = { search: 'Search', 'degree-planner': 'Degree Planner', 'profile': 'Profile', 'care-profile': 'Academic profile', 'preferences': 'Search preferences', 'settings': 'Settings', 'saved': 'Saved', 'projects': 'Collections', 'projects:new': 'Collections' };
   let label = labels[mode];
   if (!label && mode && mode.startsWith && mode.startsWith('project:')) {
     label = window.projectAgentLabel ? window.projectAgentLabel(mode) : 'Project';
@@ -1079,7 +1086,7 @@ function ChatHeader({ chatLabel, sections, activeScope, onScopeChange, role, onR
 
 }
 
-/* === Program Finder — guided agent that matches you with programs === */
+/* === Degree Planner — guided agent that matches you with degrees === */
 const PROGRAM_INTERESTS = [
 { id: 'cs',        label: 'Engineering & Computing', sub: 'CS, data, robotics, engineering' },
 { id: 'business',  label: 'Business & Economics',    sub: 'Finance, marketing, analytics' },
@@ -1145,7 +1152,7 @@ const PROGRAM_MATCHES = {
 
 const PROGRAM_FINDER_STEPS = ['Interest', 'Level', 'Format'];
 
-function ProgramFinder({ onAsk }) {
+function DegreePlanner({ onAsk }) {
   const [step, setStep] = React.useState(1); // 1 | 2 | 3 | 'result'
   const [interest, setInterest] = React.useState(null);
   const [level, setLevel] = React.useState('bachelors');
@@ -1174,12 +1181,12 @@ function ProgramFinder({ onAsk }) {
     <div className="agent fade-in">
       <div className="agent__head">
         <div className="agent__badge">
-          <span className="agent__badge-icon">{Icon.Compass()}</span>
-          <span>Program Finder</span>
+          <span className="agent__badge-icon">{Icon.GraduationCap()}</span>
+          <span>Degree Planner</span>
         </div>
-        <h1 className="agent__title">Find the right program for you.</h1>
+        <h1 className="agent__title">Find the right degree for you.</h1>
         <p className="agent__sub">
-          Three quick questions and we'll match you with Meridian programs — then dive into any of them or estimate your aid.
+          Three quick questions and we'll match you with Meridian degrees — then dive into any of them or estimate your aid.
         </p>
       </div>
 
@@ -1284,7 +1291,7 @@ function App() {
   const [draft, setDraft] = useS('');
   const [role, setRole] = useS('prospective');
   const [collapsed, setCollapsed] = useS(true);
-  const [agent, setAgent] = useS(null); // null | 'program-finder' | 'preferences' | 'settings'
+  const [agent, setAgent] = useS(null); // null | 'degree-planner' | 'preferences' | 'settings'
   const [loggedIn, setLoggedIn] = useS(tweaks.loggedIn !== false);
   const [userMenuOpen, setUserMenuOpen] = useS(false);
   const [authOpen, setAuthOpen] = useS(false);
@@ -1337,6 +1344,7 @@ function App() {
     const has = (...kw) => kw.some((k) => ql.includes(k));
     const D = window.AlmaData;
 
+    if (has('compare', ' vs ', ' vs.', ' versus', 'difference between', 'cs or data', 'data science or', 'science or computer')) return D.COMPARE;
     if (has('cost', 'tuition', 'afford', 'price', 'financial aid', ' aid', 'scholar', 'fafsa', 'promise', 'net price', 'grant', 'loan', 'pay for')) return D.COST_AID;
     if (has('computer science', 'comp sci', 'cs major', 'cs department', 'in cs', 'cs course', 'programming', 'software engineer')) return D.CS_PROGRAM;
     // Only the two built-out flows resolve to an answer. Anything else returns
@@ -1404,18 +1412,16 @@ function App() {
   };
 
   const pickAgent = (id) => {
-    // Program Finder is the built-out agent. The two chat-flow shortcuts seed a
-    // query directly. Account screens route as before.
-    if (id === 'program-finder') {
+    // Degree Planner is the one built-out agent. The other sidebar agents are
+    // placeholders — they look active but intentionally do nothing. Chat flows
+    // are reached by searching, not from here. Account screens route as before.
+    if (id === 'degree-planner') {
       setMessages([]);
       setDraft('');
       setActiveTab(null);
-      setAgent('program-finder');
+      setAgent('degree-planner');
       return;
     }
-    if (id === 'explore-majors') { ask('Tell me about the Computer Science major'); return; }
-    if (id === 'cost-aid') { ask('How much does Meridian cost and what aid can I get?'); return; }
-    if (id === 'scholarships') { ask('What scholarships am I eligible for?'); return; }
     if (id === 'profile' || id === 'care-profile' || id === 'preferences' || id === 'settings') {
       setMessages([]);
       setDraft('');
@@ -1533,8 +1539,8 @@ function App() {
         </div>
         }
         <div className="main__scroll" ref={attachScroll}>
-          {!hasMessages && agent === 'program-finder' &&
-          <ProgramFinder
+          {!hasMessages && agent === 'degree-planner' &&
+          <DegreePlanner
             onAsk={(q) => { if (resolveAnswer(q)) { setAgent(null); ask(q); } }} />
 
           }
@@ -1650,7 +1656,7 @@ function App() {
             <window.TweakButton label="Profile" onClick={() => pickAgent('profile')} />
             <window.TweakButton label="Academic profile" onClick={() => pickAgent('care-profile')} />
             <window.TweakButton label="Search preferences" onClick={() => pickAgent('preferences')} />
-            <window.TweakButton label="Program Finder" onClick={() => pickAgent('program-finder')} />
+            <window.TweakButton label="Degree Planner" onClick={() => pickAgent('degree-planner')} />
             <window.TweakButton label="Ask: Computer Science" onClick={() => {newConv();setTimeout(() => ask('Tell me about the Computer Science major'), 80);}} />
             <window.TweakButton label="Reset to landing" onClick={newConv} secondary />
           </window.TweakSection>

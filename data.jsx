@@ -328,6 +328,79 @@ const COST_AID = {
   ],
 };
 
-window.AlmaData = { CS_PROGRAM, COST_AID };
+/* === COMPARE: prospective student comparing two programs =========== */
+const COMPARE = {
+  query: 'Compare Computer Science and Data Science',
+  chatLabel: 'Computer Science vs Data Science',
+  actions: [
+    { label: 'Explore Computer Science', href: './computer-science.html', primary: true, icon: 'GraduationCap' },
+  ],
+  tabs: [
+    { id: 'services', label: 'Programs', icon: 'BookOpen', count: 2 },
+  ],
+  summary: [
+    { text: "Computer Science and Data Science share a first year at Meridian, then diverge: CS goes deeper into how software and systems are built, while Data Science focuses on drawing meaning from data" },
+    { text: ". Both are STEM-designated and report strong outcomes — a median first-year salary near $92,000 for CS and $89,000 for Data Science", cite: [1] },
+    { text: ". Love building things? Lean CS. Love finding patterns? Lean Data Science — and you can switch in year one without losing time", cite: [2] },
+    { text: "." },
+  ],
+  sections: [
+    {
+      id: 'cmp-table', tab: 'overview', title: 'Side by side', icon: 'FileText',
+      body: () => (
+        <window.CompareTable
+          headers={['Compare', 'Computer Science (B.S.)', 'Data Science (B.S.)']}
+          rows={[
+            ['Focus', 'Building software & systems', 'Finding meaning in data'],
+            ['Core math', 'Discrete math & algorithms', 'Statistics & linear algebra'],
+            ['Signature courses', 'Operating Systems, Machine Learning', 'Statistical Learning, Data Engineering'],
+            ['Best if you love', 'How things are built', 'What the data is telling you'],
+            ['Typical first roles', 'Software engineer, security analyst', 'Data scientist, ML engineer, analyst'],
+            ['Median first-year salary', '$92,000', '$89,000'],
+            ['Shared first year', { type: 'tag', label: 'Yes' }, { type: 'tag', label: 'Yes' }],
+          ]} />
+      ),
+    },
+    {
+      id: 'cmp-overlap', tab: 'programs', title: 'How they overlap', icon: 'BookOpen',
+      body: () => (
+        <ul className="bullet-list">
+          <li><div className="bullet-list__label">Shared foundation</div><div className="bullet-list__desc">Intro to CS, Data Structures, and calculus are common to both — switch majors in year one without falling behind.</div></li>
+          <li><div className="bullet-list__label">Machine learning either way</div><div className="bullet-list__desc">Both majors can take the ML sequence; CS emphasizes the systems, Data Science the modeling.</div></li>
+          <li><div className="bullet-list__label">Double-count electives</div><div className="bullet-list__desc">Several upper-level electives count toward either degree, so a minor or double major is realistic.</div></li>
+        </ul>
+      ),
+    },
+    {
+      id: 'cmp-choose', tab: 'overview', title: 'How to choose', icon: 'Compass',
+      body: () => (
+        <>
+          <ul className="bullet-list">
+            <li><div className="bullet-list__label">Pick CS if…</div><div className="bullet-list__desc">you want to build software, work close to systems and security, or keep the broadest set of engineering roles open.</div></li>
+            <li><div className="bullet-list__label">Pick Data Science if…</div><div className="bullet-list__desc">you're drawn to statistics, experimentation, and turning messy data into decisions.</div></li>
+          </ul>
+          <div className="callout">
+            <div className="callout__icon">{Icon.Info()}</div>
+            <div>
+              <p className="callout__title">Still unsure? Start undeclared in Engineering &amp; Computing</p>
+              <p className="callout__body">You'll take the shared first-year core and declare by the end of year one with an advisor's help.</p>
+            </div>
+          </div>
+        </>
+      ),
+    },
+  ],
+  sources: [
+    { num: 1, fav: 'M', name: 'Meridian Career Center', title: 'Class of 2025 outcomes', date: 'Jan 2026', url: '#' },
+    { num: 2, fav: 'M', name: 'Engineering & Computing', title: 'CS vs Data Science advising guide', date: 'Mar 2026', url: '#' },
+  ],
+  followups: [
+    { q: 'Tell me about the Computer Science major', to: 'CS_PROGRAM' },
+    { q: 'How much does Meridian cost and what aid can I get?', to: 'COST_AID' },
+    { q: 'Who teaches in the CS department?', to: 'CS_PROGRAM' },
+  ],
+};
+
+window.AlmaData = { CS_PROGRAM, COST_AID, COMPARE };
 window.FacultyCarousel = FacultyCarousel;
 window.CampusCarousel = CampusCarousel;

@@ -2,9 +2,10 @@
 
 **Live link:** https://uxpreview.github.io/open-search-university/
 
-A prototype of an AI site-search experience for a university. Three flows are
-fully built out; everything else is clickable but intentionally does nothing
-(so you never land on an off-topic screen mid-demo). Stick to the paths below.
+A prototype of an AI site-search experience for a prospective student. A few
+paths are fully built out; everything else is clickable but intentionally does
+nothing, so you never land on an off-topic screen mid-demo. Stick to the paths
+below and lead with **typing real questions into the search** — that's the story.
 
 > Tip: if anything looks out of date, hard-refresh (Cmd+Shift+R / Ctrl+F5).
 
@@ -12,80 +13,85 @@ fully built out; everything else is clickable but intentionally does nothing
 
 ## Opening the search
 
-From the homepage, open the search modal any of these ways:
-- Click **Search** in the top nav
-- Click the big **search bar** in the hero
-- Press **⌘K** (Mac) or **Ctrl K** (Windows)
-
-Inside the modal, the fastest way to launch a flow is the **left sidebar** —
-items under **AGENTS** and **RECENT** run on a single click. (The centered
-suggestions under the search box *fill* the box instead; press **Enter** to run
-them.)
+From the homepage: click **Search** in the nav, click the **hero search bar**,
+or press **⌘K** (Mac) / **Ctrl K** (Windows). Type a question and press
+**Enter** to run it.
 
 ---
 
-## Flow 1 — Explore a major (Computer Science)
+## Flow 1 — Cost & aid (type a real question)
 
-**Launch:** sidebar → **Explore majors** (or type "Tell me about the Computer
-Science major" and press Enter, or click the **Computer Science major** recent).
+The headline moment: a prospective student just types what's on their mind.
 
-**What to show:** the answer streams in, then reveals sections. Point out:
-- The **summary** with footnote citations
-- **Apply now** / **View program page** buttons under the summary
-  (View program page opens the dedicated Computer Science page)
-- The scope tabs up top — **Programs / Faculty / Campus** — click through them
-- The **faculty** and **campus** cards, the **Related programs** cards
-- The **"you can also ask"** follow-up chips at the bottom (these work — try
-  "Who teaches in the CS department?")
+**Do this:** open search and type, e.g.
+> *"How much will it cost to attend and what financial aid can I get?"*
 
-## Flow 2 — Cost, aid & scholarships
+Press **Enter**. (Other phrasings work too — "tuition", "scholarships",
+"can I afford Meridian", "net price".)
 
-**Launch:** sidebar → **Cost & aid** (or **Scholarships**, or type "How much
-does Meridian cost and what aid can I get?" and press Enter).
+**Show:** the streamed answer with citations, the cost breakdown + net-price
+callout, the **sample aid package** card, the **how aid works** steps, and the
+scholarships list. Try a follow-up chip at the bottom.
 
-**What to show:**
-- Cost breakdown ("What it actually costs") and the **net-price** callout
-- **A sample aid package** card
-- **How aid works** step-by-step
-- **Scholarships** list and the financial-aid office card
-- Follow-up chips work here too (e.g. "What scholarships am I eligible for?")
+## Flow 2 — Compare two programs
 
-## Flow 3 — Program Finder (guided agent)
+A student torn between two majors.
 
-**Launch:** sidebar → **Program Finder**.
+**Do this:** open search and type
+> *"Compare Computer Science and Data Science"*
 
-**What to show:** a 3-step wizard — **Interest → Level → Format**. Pick any
-options to reach the results. For the cleanest hand-off, choose
-**Engineering & Computing**, then **Bachelor's**, then **On-campus**:
-- You get matched program cards (Computer Science, Data Science, Cybersecurity)
-- On the **Computer Science** card, **Explore** opens the full CS answer (Flow 1)
-- **Cost & aid** on any card opens Flow 2
+Press **Enter**. ("Computer Science vs Data Science" also works, and it's in
+the **Recent** list as "CS vs Data Science" if you want a one-click backup.)
 
-> Note: "Explore" only opens an answer for **Computer Science**. For other
-> programs it does nothing on purpose (no full answer is built for them).
+**Show:** the **side-by-side comparison table**, the "how they overlap" and
+"how to choose" sections, and the **Explore Computer Science** button (opens the
+full CS program flow).
 
----
+## Flow 3 — Use the tabs to narrow the result type
 
-## Recommended 2-minute script
+Show how the scope tabs above the search hone in on one kind of result.
 
-1. Land on the homepage, press **⌘K** to open search.
-2. Sidebar → **Program Finder** → Engineering & Computing → Bachelor's →
-   On-campus → on the Computer Science card click **Explore**.
-3. In the CS answer, click through the **Programs / Faculty / Campus** tabs and
-   the **View program page** button.
-4. Back to search (**New chat** in the sidebar), sidebar → **Cost & aid** to
-   show the aid breakdown and sample package.
+**Do this:** open search, click the **Faculty** tab above the box, then type
+> *"computer science"*
+
+and pick **Computer Science faculty** (or press Enter). The answer opens
+straight to the **Faculty** view — just the professor cards. Click the other
+tabs (**Programs / Campus**) to show the same answer re-sliced by result type.
+
+> Other tabs work the same way for Computer Science (try **Programs** →
+> "computer science" to land on courses + related programs).
+
+## Bonus — Degree Planner (guided agent)
+
+**Do this:** in the search modal sidebar, click **Degree Planner**. A 3-step
+wizard (Interest → Level → Format). Pick **Engineering & Computing → Bachelor's
+→ On-campus**; on the **Computer Science** result card, **Explore** opens Flow 2's
+program. (Other result cards are placeholders — see below.)
 
 ---
 
-## What's intentionally inert (skip these in the demo)
+## Suggested 2-minute script
 
-These are styled to look clickable but do nothing, by design:
-- Other majors (Nursing, Business, Psychology, etc.) and other faculty/campus
-  searches
-- Admissions / housing / dining / visit suggestions and typeahead results
-- "Related program" cards, and "Explore" on non-CS Program Finder results
-- Homepage nav links and most footer links
+1. Homepage → **⌘K**.
+2. Type **"How much will it cost and what financial aid can I get?"** → Enter.
+   Walk the cost breakdown + aid package.
+3. **New chat** (sidebar) → type **"Compare Computer Science and Data Science"**
+   → Enter. Walk the comparison table, then click **Explore Computer Science**.
+4. **New chat** → click the **Faculty** tab → type **"computer science"** →
+   open **Computer Science faculty**. Point out it landed on the Faculty view;
+   click **Programs** / **Campus** to re-slice.
 
-If you type a question we haven't built (e.g. "How do I apply?") nothing
-happens — that's expected; it just won't show an unrelated answer.
+---
+
+## What's intentionally inert (don't click in the demo)
+
+Styled to look clickable but do nothing, by design:
+- **Sidebar agents** except Degree Planner — **Virtual Advisor**, **Financial
+  Aid Assistant**, **Career Dreamer**, **Visit Planner** are placeholders.
+- Majors other than Computer Science / Data Science, and unrelated searches
+  (admissions, housing, dining, visit, other faculty).
+- "Related program" cards, and "Explore" on non-CS Degree Planner results.
+- Homepage nav links and most footer links.
+
+If you type a question we haven't built (e.g. "How do I apply?"), nothing
+happens — that's expected; it won't show an unrelated answer.

@@ -19,8 +19,14 @@ or click **Search**.
   - *Cost, aid & scholarships* — "How much does Meridian cost and what aid can I
     get?" (cost breakdown, sample aid package, how-aid-works steps,
     scholarships, financial-aid office, FAQ).
-- **Program Finder agent** — a 3-step guided wizard (interest → degree level →
-  format) that matches you with programs and hands off into an answer.
+- **Compare two programs** — "Compare Computer Science and Data Science"
+  (side-by-side table, overlap, how to choose).
+- **Scope tabs** — pick a tab (Programs / Faculty / Campus / Cost & Aid /
+  Admissions) to land an answer on a specific result type.
+- **Degree Planner agent** — a 3-step guided wizard (interest → degree level →
+  format) that matches you with degrees and hands off into an answer.
+
+See [`DEMO.md`](DEMO.md) for a ready-to-run demo script.
 
 See [`PLAN.md`](PLAN.md) for scope and [`BRAND.md`](BRAND.md) for the theming map.
 
