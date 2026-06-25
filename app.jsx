@@ -1191,10 +1191,10 @@ function ProgramFinder({ onAsk }) {
             return (
               <React.Fragment key={label}>
                 {i > 0 && <span className="wizard__step-bar" aria-hidden="true"></span>}
-                <span className={'wizard__step-dot' + state} role="listitem">
-                  <span className="wizard__step-dot-num">{n < stepNum ? Icon.Check() : n}</span>
-                  <span className="wizard__step-dot-label">{label}</span>
+                <span className={'wizard__step-dot' + state} role="listitem" aria-current={n === stepNum ? 'step' : undefined}>
+                  {n < stepNum ? Icon.Check() : n}
                 </span>
+                <span style={{ fontSize: 12, fontWeight: n === stepNum ? 600 : 500, color: n === stepNum ? 'var(--text)' : 'var(--text-faint)', whiteSpace: 'nowrap' }}>{label}</span>
               </React.Fragment>
             );
           })}
