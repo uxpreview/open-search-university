@@ -6174,3 +6174,28 @@ body.body--locked { overflow: hidden; }
   color: #fff;
 }
 .answer-actions__btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+
+/* === Related programs — actionable-looking cards === */
+.related-programs { display: grid; gap: 8px; }
+.related-program {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+.related-program:hover { border-color: var(--accent-border); background: var(--accent-soft); }
+.related-program__icon { color: var(--accent); display: inline-flex; flex-shrink: 0; }
+.related-program__icon svg { width: 18px; height: 18px; }
+.related-program__text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 1px; }
+.related-program__name { font-weight: 600; font-size: 14px; color: var(--text); }
+.related-program__desc { font-size: 12.5px; color: var(--text-muted); }
+.related-program__arrow { color: var(--text-faint); display: inline-flex; flex-shrink: 0; transition: transform .15s ease, color .15s ease; }
+.related-program__arrow svg { width: 16px; height: 16px; }
+.related-program:hover .related-program__arrow { color: var(--accent); transform: translateX(2px); }

@@ -179,14 +179,23 @@ const CS_PROGRAM = {
     {
       id: 'cs-related', tab: 'programs', title: 'Related programs', icon: 'Compass',
       body: () => (
-        <>
-          <ul className="bullet-list">
-            <li><div className="bullet-list__label">Data Science (B.S.)</div><div className="bullet-list__desc">Shares a first year with CS; adds statistics and data engineering.</div></li>
-            <li><div className="bullet-list__label">Cybersecurity (B.S.)</div><div className="bullet-list__desc">A security-first track with a dedicated lab and red-team coursework.</div></li>
-            <li><div className="bullet-list__label">Software Engineering (B.S.)</div><div className="bullet-list__desc">Team-built software, testing, and shipping at scale.</div></li>
-            <li><div className="bullet-list__label">Mathematics (B.S.) + CS minor</div><div className="bullet-list__desc">For students drawn to theory, cryptography, or graduate research.</div></li>
-          </ul>
-        </>
+        <div className="related-programs">
+          {[
+            { name: 'Data Science (B.S.)', desc: 'Shares a first year with CS; adds statistics and data engineering.' },
+            { name: 'Cybersecurity (B.S.)', desc: 'A security-first track with a dedicated lab and red-team coursework.' },
+            { name: 'Software Engineering (B.S.)', desc: 'Team-built software, testing, and shipping at scale.' },
+            { name: 'Mathematics (B.S.) + CS minor', desc: 'For students drawn to theory, cryptography, or graduate research.' },
+          ].map((p, i) => (
+            <button type="button" className="related-program" key={i}>
+              <span className="related-program__icon">{Icon.BookOpen()}</span>
+              <span className="related-program__text">
+                <span className="related-program__name">{p.name}</span>
+                <span className="related-program__desc">{p.desc}</span>
+              </span>
+              <span className="related-program__arrow">{Icon.ArrowRight()}</span>
+            </button>
+          ))}
+        </div>
       ),
     },
   ],

@@ -1338,11 +1338,16 @@ function App() {
     const D = window.AlmaData;
 
     if (has('cost', 'tuition', 'afford', 'price', 'financial aid', ' aid', 'scholar', 'fafsa', 'promise', 'net price', 'grant', 'loan', 'pay for')) return D.COST_AID;
-    return D.CS_PROGRAM;
+    if (has('computer science', 'comp sci', 'cs major', 'cs department', 'in cs', 'cs course', 'programming', 'software engineer')) return D.CS_PROGRAM;
+    // Only the two built-out flows resolve to an answer. Anything else returns
+    // null so ask() stays inert — the prototype never shows an answer that is
+    // unrelated to what the user actually clicked.
+    return null;
   };
 
   const ask = useCallback((q, scope, forceKey) => {
     const data = forceKey && window.AlmaData[forceKey] ? window.AlmaData[forceKey] : resolveAnswer(q);
+    if (!data) return; // no built-out flow for this query — stay inert, show nothing off-topic
     // Stable per-message id so async updates aren't sensitive to array index
     // (which broke when newConv() cleared the list between click and ask).
     const msgId = 'm-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
@@ -1530,7 +1535,7 @@ function App() {
         <div className="main__scroll" ref={attachScroll}>
           {!hasMessages && agent === 'program-finder' &&
           <ProgramFinder
-            onAsk={(q) => {setAgent(null);ask(q);}} />
+            onAsk={(q) => { if (resolveAnswer(q)) { setAgent(null); ask(q); } }} />
 
           }
           {!hasMessages && agent === 'profile' &&
