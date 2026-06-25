@@ -684,7 +684,7 @@ function PrefSection({ title, num, children }) {
 window.CareProfile = CareProfile;
 window.SearchPreferences = SearchPreferences;
 
-/* ─── Account Profile (separate from Health data) ─── */
+/* ─── Account Profile (separate from Academic profile) ─── */
 function AccountProfile({ onDone, onOpenHealthData }) {
   const [editing, setEditing] = useS(false);
   const [d, setD] = useS({

@@ -917,8 +917,8 @@ function LeftRail({ history, onNewConv, onPickHistory, collapsed, onToggleCollap
                 <span>Profile</span>
               </button>
               <button className="user-menu__item" onClick={() => {onCloseMenu();onPickAgent('care-profile');}}>
-                <span className="user-menu__icon">{Icon.Heart()}</span>
-                <span>Health data</span>
+                <span className="user-menu__icon">{Icon.BookOpen()}</span>
+                <span>Academic profile</span>
               </button>
               <button className="user-menu__item" onClick={() => {onCloseMenu();onPickAgent('preferences');}}>
                 <span className="user-menu__icon">{Icon.Sliders()}</span>
