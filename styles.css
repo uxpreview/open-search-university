@@ -1,24 +1,30 @@
-/* === [System] — design tokens === */
+/* === [System] — design tokens ===
+   Neutrals are tinted toward Meridian navy (hue 264), not toward warmth. The
+   institution's color carries the brand; the app surface stays restrained. */
 :root {
-  --bg: #F7F5F0;
-  --bg-alt: #F2EFE7;
+  --bg: oklch(0.977 0.004 264);
+  --bg-alt: oklch(0.955 0.007 264);
   --surface: #FFFFFF;
-  --surface-2: #FBFAF6;
-  --border: #E8E3D7;
-  --border-strong: #D6D0C0;
-  --text: #1A1814;
-  --text-muted: #5A564D;
-  --text-faint: #736E62;
+  --surface-2: oklch(0.988 0.003 264);
+  --border: oklch(0.906 0.009 264);
+  --border-strong: oklch(0.845 0.014 264);
+  --text: oklch(0.215 0.018 264);
+  --text-muted: oklch(0.455 0.017 264);
+  --text-faint: oklch(0.565 0.019 264);
   --accent: oklch(0.40 0.10 264);
   --accent-2: oklch(0.52 0.09 264);
   --accent-soft: oklch(0.96 0.02 264);
   --accent-border: oklch(0.88 0.035 264);
+  /* Institutional navy — carries the host site's hero, band, and footer */
+  --navy: oklch(0.30 0.078 264);
+  --navy-deep: oklch(0.215 0.056 264);
+  --gold: oklch(0.78 0.13 85);
   --warm: oklch(0.72 0.12 85);
   --warm-soft: oklch(0.95 0.04 85);
   --danger: oklch(0.55 0.16 27);
-  --shadow-xs: 0 1px 1px rgba(20,18,12,0.03);
-  --shadow-sm: 0 1px 2px rgba(20,18,12,0.04), 0 0 0 1px rgba(20,18,12,0.04);
-  --shadow-md: 0 2px 4px rgba(20,18,12,0.04), 0 8px 24px -8px rgba(20,18,12,0.08);
+  --shadow-xs: 0 1px 1px rgba(12,16,32,0.04);
+  --shadow-sm: 0 1px 2px rgba(12,16,32,0.05), 0 0 0 1px rgba(12,16,32,0.04);
+  --shadow-md: 0 2px 4px rgba(12,16,32,0.05), 0 8px 24px -8px rgba(12,16,32,0.10);
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;

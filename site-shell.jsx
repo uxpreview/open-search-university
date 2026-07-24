@@ -13,29 +13,43 @@ const SITE_SHORTCUT = SITE_IS_MAC ? '⌘K' : 'Ctrl K';
 
 const SITE_NAV_LINKS = ['Academics', 'Admissions', 'Tuition & Aid', 'Campus Life', 'Visit'];
 
-const SITE_STATS = [
-  { value: '150+', label: 'Programs of study' },
-  { value: '18:1', label: 'Student–faculty ratio' },
-  { value: '92%', label: 'Grad outcomes rate' },
-  { value: '$75M', label: 'Awarded in aid yearly' },
+/* Verified Unsplash photo ids. Campus imagery is the brand's first impression;
+   colored panels are not a substitute for it. */
+const PHOTO = (id, w) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
+
+/* One college leads with a photograph; the rest read as a list. Six identical
+   cards is the shape every generated page reaches for. */
+const HOME_FEATURE = {
+  name: 'Engineering & Computing',
+  desc: 'Computer science, data, robotics, and engineering — hands-on labs from the first semester and paid co-ops with employers who hire our graduates.',
+  href: './computer-science.html',
+  cta: 'Explore the college',
+  photo: 'photo-1723987251277-18fc0a1effd0',
+  alt: 'Students working together at monitors in a Meridian computing lab',
+};
+
+const HOME_COLLEGES = [
+  { name: 'Business & Economics', desc: 'Finance, marketing, analytics, and entrepreneurship with real-world practicums.' },
+  { name: 'Arts & Humanities', desc: 'Writing, history, design, and languages that sharpen how you think and create.' },
+  { name: 'Natural Sciences', desc: 'Biology, chemistry, physics, and environmental science with research from year one.' },
+  { name: 'Health & Nursing', desc: 'Nursing, public health, and pre-health pathways tied to clinical partners.' },
+  { name: 'Social Sciences', desc: 'Psychology, politics, and sociology that connect ideas to communities.' },
 ];
 
-const HOME_SERVICES = [
-  { icon: 'Laptop', name: 'Engineering & Computing', desc: 'Computer science, data, robotics, and engineering with hands-on labs and co-ops.', href: './computer-science.html' },
-  { icon: 'DollarSign', name: 'Business & Economics', desc: 'Finance, marketing, analytics, and entrepreneurship with real-world practicums.' },
-  { icon: 'BookOpen', name: 'Arts & Humanities', desc: 'Writing, history, design, and languages that sharpen how you think and create.' },
-  { icon: 'Beaker', name: 'Natural Sciences', desc: 'Biology, chemistry, physics, and environmental science with research from year one.' },
-  { icon: 'Heart', name: 'Health & Nursing', desc: 'Nursing, public health, and pre-health pathways tied to clinical partners.' },
-  { icon: 'Users', name: 'Social Sciences', desc: 'Psychology, politics, and sociology that connect ideas to communities.' },
-];
+const CS_FEATURE = {
+  name: 'Artificial Intelligence',
+  desc: 'Machine learning, neural networks, and responsible AI — from the mathematics through to systems students ship in the capstone.',
+  cta: 'See the AI concentration',
+  photo: 'photo-1531497082986-2422f7b87330',
+  alt: 'A Meridian professor working through a problem with two students',
+};
 
-const CS_SERVICES = [
-  { icon: 'Laptop', name: 'Artificial Intelligence', desc: 'Machine learning, neural networks, and responsible AI from foundations to practice.' },
-  { icon: 'Shield', name: 'Cybersecurity', desc: 'Secure systems, cryptography, and ethical hacking in a dedicated security lab.' },
-  { icon: 'Beaker', name: 'Systems & Architecture', desc: 'Operating systems, networks, and the hardware–software boundary.' },
-  { icon: 'Compass', name: 'Human–Computer Interaction', desc: 'Design, accessibility, and the craft of software people love to use.' },
-  { icon: 'Award', name: 'Theory & Algorithms', desc: 'The mathematics of computation, complexity, and provably correct code.' },
-  { icon: 'Users', name: 'Software Engineering', desc: 'Team-built projects, version control, and shipping real software.' },
+const CS_CONCENTRATIONS = [
+  { name: 'Cybersecurity', desc: 'Secure systems, cryptography, and ethical hacking in a dedicated security lab.' },
+  { name: 'Systems & Architecture', desc: 'Operating systems, networks, and the hardware–software boundary.' },
+  { name: 'Human–Computer Interaction', desc: 'Design, accessibility, and the craft of software people love to use.' },
+  { name: 'Theory & Algorithms', desc: 'The mathematics of computation, complexity, and provably correct code.' },
+  { name: 'Software Engineering', desc: 'Team-built projects, version control, and shipping real software.' },
 ];
 
 const PAGES = {
@@ -43,13 +57,24 @@ const PAGES = {
     title: 'Meridian University — Search',
     breadcrumb: null,
     hero: {
-      eyebrow: 'Welcome to Meridian University',
       title: 'Find your future at Meridian.',
       sub: 'Explore 150+ programs, estimate your financial aid, and get answers about admissions — all in one place.',
       placeholder: 'Search programs, majors, scholarships…',
       primaryCta: { icon: 'GraduationCap', label: 'Explore programs' },
+      photo: 'photo-1760917094679-d33f2ec13110',
+      alt: 'Meridian’s North Quad buildings under low evening light',
     },
-    section: { title: 'Explore by college', cards: HOME_SERVICES, cta: 'Explore' },
+    section: {
+      title: 'Explore by college',
+      feature: HOME_FEATURE,
+      items: HOME_COLLEGES,
+      itemsLabel: 'Eight colleges, one application',
+    },
+    figure: {
+      value: '$75M',
+      lead: 'awarded in aid every year.',
+      body: 'Meridian Promise covers full tuition for families under $75,000, and 92% of graduates are employed or in graduate school within six months.',
+    },
     band: { title: 'Not sure what to study?', sub: 'Tell us what you’re into and we’ll point you to the right program.' },
     search: { heading: null, suggestions: null },
   },
@@ -57,13 +82,25 @@ const PAGES = {
     title: 'Computer Science — Meridian University',
     breadcrumb: 'Computer Science',
     hero: {
-      eyebrow: 'College of Engineering & Computing',
+      kicker: 'College of Engineering & Computing',
       title: 'Build what’s next in Computer Science.',
       sub: 'A STEM-designated B.S. with concentrations in AI, security, and systems — plus co-ops with leading employers.',
       placeholder: 'Ask about Computer Science at Meridian…',
       primaryCta: { icon: 'Laptop', label: 'Explore the CS major' },
+      photo: 'photo-1707960572634-8b7649870d95',
+      alt: 'Students crossing the green between Meridian’s computing buildings',
     },
-    section: { title: 'Concentrations & focus areas', cards: CS_SERVICES, cta: 'Learn more' },
+    section: {
+      title: 'Concentrations & focus areas',
+      feature: CS_FEATURE,
+      items: CS_CONCENTRATIONS,
+      itemsLabel: 'Six ways to specialize',
+    },
+    figure: {
+      value: '$92,000',
+      lead: 'median first-year salary.',
+      body: '94% of the Class of 2025 was placed within six months, and CS co-op students earn an average of $28 an hour before they graduate.',
+    },
     band: { title: 'Have a question about CS?', sub: 'Ask Meridian about courses, faculty, outcomes, and how to apply.' },
     search: {
       heading: 'Want to learn more about Computer Science at Meridian?',
@@ -144,8 +181,13 @@ function SiteShell({ onOpenSearch, triggerRef }) {
         }
 
         <section className="site-hero">
+          <img
+            className="site-hero__photo"
+            src={PHOTO(page.hero.photo, 2000)}
+            alt={page.hero.alt}
+            fetchpriority="high" />
           <div className="site-hero__inner">
-            <p className="site-hero__eyebrow">{page.hero.eyebrow}</p>
+            {page.hero.kicker && <p className="site-hero__kicker">{page.hero.kicker}</p>}
             <h1 className="site-hero__title serif">{page.hero.title}</h1>
             <p className="site-hero__sub">{page.hero.sub}</p>
             <SiteSearchTrigger onOpenSearch={onOpenSearch} variant="hero" placeholder={page.hero.placeholder} />
@@ -160,40 +202,52 @@ function SiteShell({ onOpenSearch, triggerRef }) {
           </div>
         </section>
 
-        <section className="site-services" aria-label="Colleges">
+        <section className="site-programs" aria-label={page.section.title}>
           <div className="site-section__head">
             <h2 className="site-section__title">{page.section.title}</h2>
             <a href="#" className="site-section__link" onClick={(e) => { e.preventDefault(); onOpenSearch(); }}>
               Browse all programs <Icon.ArrowRight />
             </a>
           </div>
-          <div className="site-services__grid">
-            {page.section.cards.map((s) => {
-              const Glyph = Icon[s.icon];
+
+          <div className="site-programs__body">
+            {(() => {
+              const f = page.section.feature;
               const inner = (
                 <>
-                  <span className="site-card__icon" aria-hidden="true">{Glyph ? <Glyph /> : null}</span>
-                  <span className="site-card__name">{s.name}</span>
-                  <span className="site-card__desc">{s.desc}</span>
-                  <span className="site-card__cta">
-                    {s.href ? 'Explore' : page.section.cta} <Icon.ArrowRight />
-                  </span>
+                  <img className="site-feature__photo" src={PHOTO(f.photo, 1200)} alt={f.alt} loading="lazy" />
+                  <div className="site-feature__text">
+                    <h3 className="site-feature__name serif">{f.name}</h3>
+                    <p className="site-feature__desc">{f.desc}</p>
+                    <span className="site-feature__cta">{f.cta} <Icon.ArrowRight /></span>
+                  </div>
                 </>
               );
-              return s.href
-                ? <a key={s.name} href={s.href} className="site-card">{inner}</a>
-                : <button key={s.name} type="button" className="site-card" onClick={onOpenSearch}>{inner}</button>;
-            })}
+              return f.href
+                ? <a className="site-feature" href={f.href}>{inner}</a>
+                : <button type="button" className="site-feature" onClick={onOpenSearch}>{inner}</button>;
+            })()}
+
+            <div className="site-list">
+              <h3 className="site-list__label">{page.section.itemsLabel}</h3>
+              {page.section.items.map((s) => (
+                <button key={s.name} type="button" className="site-list__row" onClick={onOpenSearch}>
+                  <span className="site-list__name">{s.name}</span>
+                  <span className="site-list__desc">{s.desc}</span>
+                  <span className="site-list__arrow" aria-hidden="true"><Icon.ArrowRight /></span>
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="site-stats" aria-label="By the numbers">
-          {SITE_STATS.map((s) => (
-            <div key={s.label} className="site-stat">
-              <div className="site-stat__value">{s.value}</div>
-              <div className="site-stat__label">{s.label}</div>
-            </div>
-          ))}
+        <section className="site-figure" aria-label="By the numbers">
+          <div className="site-figure__inner">
+            <p className="site-figure__lead serif">
+              <span className="site-figure__value">{page.figure.value}</span> {page.figure.lead}
+            </p>
+            <p className="site-figure__body">{page.figure.body}</p>
+          </div>
         </section>
 
         <section className="site-band">
