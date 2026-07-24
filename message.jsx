@@ -56,19 +56,23 @@ function ActionsRow() {
   return (
     <div className="actions-row">
       <div className="actions-row__buttons">
-        <button className="action-btn" title="Copy">{Icon.Copy()}</button>
-        <button className="action-btn" title="Share">{Icon.Share()}</button>
-        <button className="action-btn" title="Retry">{Icon.Refresh()}</button>
+        <button className="action-btn" title="Copy" aria-label="Copy answer">{Icon.Copy()}</button>
+        <button className="action-btn" title="Share" aria-label="Share answer">{Icon.Share()}</button>
+        <button className="action-btn" title="Retry" aria-label="Ask again">{Icon.Refresh()}</button>
         <button
           className={'action-btn' + (reaction === 'up' ? ' action-btn--active' : '')}
           onClick={() => setReaction(r => r === 'up' ? null : 'up')}
-          title="Good response">
+          title="Good response"
+          aria-label="Good response"
+          aria-pressed={reaction === 'up'}>
           {Icon.ThumbsUp()}
         </button>
         <button
           className={'action-btn' + (reaction === 'down' ? ' action-btn--active' : '')}
           onClick={() => setReaction(r => r === 'down' ? null : 'down')}
-          title="Bad response">
+          title="Bad response"
+          aria-label="Bad response"
+          aria-pressed={reaction === 'down'}>
           {Icon.ThumbsDown()}
         </button>
       </div>
@@ -124,7 +128,7 @@ function FollowUps({ chips, onPick }) {
         onClick={() => setCollapsed(!collapsed)}
         aria-expanded={!collapsed}
         aria-controls="followups-list">
-        <span>you can also ask ({items.length})</span>
+        <span>More questions ({items.length})</span>
         <span className="followups__chevron">{Icon.ChevronDown()}</span>
       </button>
       <ul className="followups__list" id="followups-list" hidden={collapsed}>
@@ -183,7 +187,7 @@ function TabRefinement({ tab, onFollowUp }) {
               <button
                 key={i}
                 className="tab-refine__chip"
-                onClick={() => onFollowUp && onFollowUp(`${c} \u2014 urgent care near me`)}>
+                onClick={() => onFollowUp && onFollowUp(`${c} \u2014 programs at Meridian`)}>
                 <span>{c}</span>
                 <span className="tab-refine__chip-plus">{Icon.Plus()}</span>
               </button>
@@ -206,11 +210,39 @@ function TabRefinement({ tab, onFollowUp }) {
   );
 }
 
+/* Query with no built-out answer. States the limit plainly and returns the
+   user to questions that do resolve. */
+function NoAnswer({ query, suggestions, onFollowUp }) {
+  return (
+    <div className="message" data-screen-label="No answer">
+      <h1 className="query">{query}</h1>
+      <div className="noflow fade-in">
+        <p className="noflow__body">
+          Meridian doesn’t have an answer for that yet. Nothing is being guessed
+          here — try one of these, or narrow the search with a scope above.
+        </p>
+        <div className="noflow__list">
+          {(suggestions || []).map((s) => (
+            <button key={s} type="button" className="noflow__item" onClick={() => onFollowUp(s)}>
+              <span className="noflow__item-icon">{Icon.Search()}</span>
+              <span>{s}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* === Message: one Q&A turn === */
 function Message({ msg, onFollowUp, onSectionInView, isLast, idx, activeScope, isCurrent, loggedIn }) {
   const sectionRefs = useRef({});
   const registerRef = (id, el) => { sectionRefs.current[id] = el; };
   const ctx = { loggedIn };
+
+  if (msg.kind === 'noflow') {
+    return <NoAnswer query={msg.query} suggestions={msg.suggestions} onFollowUp={onFollowUp} />;
+  }
 
   // status: 'thinking' | 'summary' | 'sections' | 'done'
   const status = msg.status;

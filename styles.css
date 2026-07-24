@@ -10,7 +10,8 @@
   --border-strong: oklch(0.845 0.014 264);
   --text: oklch(0.215 0.018 264);
   --text-muted: oklch(0.455 0.017 264);
-  --text-faint: oklch(0.565 0.019 264);
+  /* Dark enough to clear 4.5:1 on --bg-alt, not just on white */
+  --text-faint: oklch(0.532 0.019 264);
   --accent: oklch(0.40 0.10 264);
   --accent-2: oklch(0.52 0.09 264);
   --accent-soft: oklch(0.96 0.02 264);
@@ -1287,15 +1288,33 @@ svg { width: 1em; height: 1em; display: inline-block; vertical-align: middle; fl
 .agent__section {
   margin-bottom: 32px;
 }
+/* Sentence case, not mono uppercase: the step row above already numbers the
+   flow, and stacking a second scaffold reads as decoration. */
 .agent__label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: 15px;
+  color: var(--text);
+  letter-spacing: -0.005em;
   margin-bottom: 14px;
-  font-weight: 500;
+  font-weight: 600;
 }
+.wizard__echo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -6px 0 16px;
+}
+.wizard__echo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.wizard__echo-chip svg { width: 12px; height: 12px; color: var(--accent); }
 
 .body-grid {
   display: grid;
@@ -1816,7 +1835,9 @@ svg { width: 1em; height: 1em; display: inline-block; vertical-align: middle; fl
   color: var(--bg);
   border-color: var(--text);
 }
-.btn--primary:hover { background: #2a2620; }
+.btn--primary:hover { background: color-mix(in oklab, var(--text) 88%, #fff); }
+/* Back is a secondary action; it shouldn't be the widest control on screen. */
+.agent__actions .btn { flex: 0 0 auto; }
 .btn--accent {
   background: var(--text);
   color: var(--bg);
@@ -3139,6 +3160,43 @@ svg { width: 1em; height: 1em; display: inline-block; vertical-align: middle; fl
 }
 .tab-refine__icon { display: grid; place-items: center; color: var(--text); }
 .tab-refine__icon svg { width: 13px; height: 13px; }
+/* No built-out answer for the query */
+.noflow {
+  margin: 4px 0 8px;
+  padding: 22px 24px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.noflow__body {
+  margin: 0 0 14px;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 60ch;
+}
+.noflow__list { display: flex; flex-direction: column; }
+.noflow__item {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 4px;
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: transparent;
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.noflow__item:hover { color: var(--accent); }
+.noflow__item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.noflow__item-icon { display: grid; place-items: center; color: var(--text-faint); }
+.noflow__item-icon svg { width: 15px; height: 15px; }
+
 .tab-refine__title {
   margin: 14px 0 6px;
   font-family: 'Source Serif 4', serif;

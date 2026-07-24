@@ -1104,6 +1104,19 @@ function ChatHeader({ chatLabel, sections, activeScope, onScopeChange, role, onR
 
 }
 
+/* Answers already given, echoed back so no step relies on memory. */
+function WizardEcho({ picks }) {
+  const items = (picks || []).filter(Boolean);
+  if (!items.length) return null;
+  return (
+    <div className="wizard__echo">
+      {items.map((p) => (
+        <span className="wizard__echo-chip" key={p}>{Icon.Check()}{p}</span>
+      ))}
+    </div>);
+
+}
+
 /* === Degree Planner — guided agent that matches you with degrees === */
 const PROGRAM_INTERESTS = [
 { id: 'cs',        label: 'Engineering & Computing', sub: 'CS, data, robotics, engineering' },
@@ -1229,14 +1242,15 @@ function DegreePlanner({ onAsk }) {
 
       {step === 1 &&
         <div className="agent__section wizard__step fade-in">
-          <div className="agent__label">1 · What are you interested in?</div>
+          <div className="agent__label">What are you interested in?</div>
           <OptionGrid items={PROGRAM_INTERESTS} selected={interest?.id} onPick={(a) => { setInterest(a); setStep(2); }} />
         </div>
       }
 
       {step === 2 &&
         <div className="agent__section wizard__step fade-in">
-          <div className="agent__label">2 · What level of study?</div>
+          <div className="agent__label">What level of study?</div>
+          <WizardEcho picks={[interest && interest.label]} />
           <OptionGrid items={PROGRAM_LEVELS} selected={level} onPick={(l) => { setLevel(l.id); setStep(3); }} />
           <div className="agent__actions">
             <button className="btn" onClick={() => setStep(1)}>{Icon.CornerUpLeft()}<span style={{marginLeft: 6}}>Back</span></button>
@@ -1246,7 +1260,8 @@ function DegreePlanner({ onAsk }) {
 
       {step === 3 &&
         <div className="agent__section wizard__step fade-in">
-          <div className="agent__label">3 · How would you like to study?</div>
+          <div className="agent__label">How would you like to study?</div>
+          <WizardEcho picks={[interest && interest.label, levelLabel]} />
           <OptionGrid items={PROGRAM_FORMATS} selected={format} onPick={(f) => { setFormat(f.id); setStep('result'); }} />
           <div className="agent__actions">
             <button className="btn" onClick={() => setStep(2)}>{Icon.CornerUpLeft()}<span style={{marginLeft: 6}}>Back</span></button>
@@ -1256,9 +1271,8 @@ function DegreePlanner({ onAsk }) {
 
       {step === 'result' &&
         <div className="agent__section wizard__step fade-in">
-          <div className="agent__label">
-            {matches.length} programs matched · {interest ? interest.label : ''} · {levelLabel} · {formatLabel}
-          </div>
+          <div className="agent__label">{matches.length} programs matched</div>
+          <WizardEcho picks={[interest && interest.label, levelLabel, formatLabel]} />
           <div className="carousel">
             {matches.map((p, i) => (
               <div className="provider-card" key={i}>
@@ -1375,7 +1389,20 @@ function App() {
 
   const ask = useCallback((q, scope, forceKey) => {
     const data = forceKey && window.AlmaData[forceKey] ? window.AlmaData[forceKey] : resolveAnswer(q);
-    if (!data) return; // no built-out flow for this query — stay inert, show nothing off-topic
+    if (!data) {
+      // No built-out flow. Say so and hand back the questions that do work,
+      // rather than inventing an answer or leaving the screen unchanged.
+      setMessages((m) => [...m, {
+        id: 'm-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+        query: q,
+        kind: 'noflow',
+        status: 'done',
+        suggestions: DEFAULT_SCOPE.suggestions
+      }]);
+      setDraft('');
+      setActiveTab('ask');
+      return;
+    }
     // Stable per-message id so async updates aren't sensitive to array index
     // (which broke when newConv() cleared the list between click and ask).
     const msgId = 'm-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7);
