@@ -482,6 +482,10 @@
   .in-modal .main { min-height: 100%; }
   .search-modal__close { top: 12px; right: 12px; }
 
+  /* Keep the app's own header rows clear of the sheet's close button */
+  .in-modal .landing-header { padding-right: 60px; }
+  .in-modal .chat-header__left { padding-right: 60px; }
+
   .site-nav__links { display: none; }
   .site-nav__search-label { display: none; }
   .site-hero { padding: 56px 20px 40px; }

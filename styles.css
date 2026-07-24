@@ -7,8 +7,8 @@
   --border: #E8E3D7;
   --border-strong: #D6D0C0;
   --text: #1A1814;
-  --text-muted: #6B6760;
-  --text-faint: #A39E92;
+  --text-muted: #5A564D;
+  --text-faint: #736E62;
   --accent: oklch(0.40 0.10 264);
   --accent-2: oklch(0.52 0.09 264);
   --accent-soft: oklch(0.96 0.02 264);
@@ -1751,19 +1751,16 @@ svg { width: 1em; height: 1em; display: inline-block; vertical-align: middle; fl
 .callout__title { font-weight: 600; margin: 0 0 2px; }
 .callout__body { color: var(--text-muted); }
 
-/* === Provider carousel === */
+/* === Provider grid — wraps instead of scrolling, so no card is ever clipped
+   and vertical wheel events are never captured by a horizontal scroller. === */
 .carousel {
-  display: flex; gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  margin: 0 -32px 0 -32px;
-  padding: 4px 32px;
-  scrollbar-width: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(216px, 1fr));
+  gap: 12px;
+  padding: 4px 0;
 }
-.carousel::-webkit-scrollbar { display: none; }
 .provider-card {
-  flex: 0 0 280px;
-  scroll-snap-align: start;
+  min-width: 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
