@@ -142,7 +142,7 @@ const SCOPES = [
   'Tell me about the Computer Science major',
   'How much does Meridian cost and what aid can I get?',
   'What scholarships am I eligible for?',
-  'How do I apply to Meridian?'] },
+  'Compare Computer Science and Data Science'] },
 { id: 'services', label: 'Programs', icon: 'BookOpen',
   placeholder: 'Explore majors and programs',
   suggestions: [
@@ -554,7 +554,14 @@ function Landing({ onAsk, draft, setDraft, loggedIn, onSignIn, intro, onPickAgen
           onSelect={(q) => {setFocused(false);onAsk(q, scope);}}
           onFillDraft={(q) => setDraft(q)} /> :
         !hasDraft &&
-        <DefaultSuggestions items={defaultItems} onPick={(q) => setDraft(q)} />
+        <DefaultSuggestions
+          items={defaultItems}
+          onPick={(q) => {
+            /* Run it if there's a built-out answer; otherwise load the field so
+               the click still visibly does something. */
+            if (DEMO_QUERIES.has(q)) {setFocused(false);onAsk(q, scope);} else
+            setDraft(q);
+          }} />
         }
       </div>
     </div>);
@@ -1301,7 +1308,9 @@ function App() {
   const [messages, setMessages] = useS([]);
   const [draft, setDraft] = useS('');
   const [role, setRole] = useS('prospective');
-  const [collapsed, setCollapsed] = useS(true);
+  // Start expanded when there's room: the agents in the rail are the point, and
+  // icon-only is unreadable to a first-time visitor.
+  const [collapsed, setCollapsed] = useS(() => typeof window !== 'undefined' && window.innerWidth < 1100);
   const [agent, setAgent] = useS(null); // null | 'degree-planner' | 'preferences' | 'settings'
   const [loggedIn, setLoggedIn] = useS(tweaks.loggedIn !== false);
   const [userMenuOpen, setUserMenuOpen] = useS(false);
