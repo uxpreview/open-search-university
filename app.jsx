@@ -699,6 +699,13 @@ function AuthModal({ open, onClose, onComplete }) {
 
 }
 
+/* Floats positioned from getBoundingClientRect must render into <body>: inside
+   the site's search modal the animated, blurred wrapper becomes the containing
+   block for position: fixed, so viewport coords land offset by the panel. */
+function ViewportLayer({ children }) {
+  return ReactDOM.createPortal(children, document.body);
+}
+
 /* Locked rail item — disabled state + hover promo card prompting sign-in */
 function RailLockedItem({ icon, label, title, desc, collapsed, onSignIn }) {
   const [hover, setHover] = React.useState(false);
@@ -731,11 +738,12 @@ function RailLockedItem({ icon, label, title, desc, collapsed, onSignIn }) {
         <span className="rail__item-trail rail__item-trail--lock">{Icon.Lock()}</span>
       </div>
       {hover &&
-      <div className="rail__promo"
-      role="tooltip"
-      onMouseEnter={show}
-      onMouseLeave={hide}
-      style={{ top: pos.top, left: pos.left }}>
+      <ViewportLayer>
+        <div className="rail__promo"
+        role="tooltip"
+        onMouseEnter={show}
+        onMouseLeave={hide}
+        style={{ top: pos.top, left: pos.left }}>
           <div className="rail__promo-title">{title}</div>
           <div className="rail__promo-desc">{desc}</div>
           <button
@@ -744,6 +752,7 @@ function RailLockedItem({ icon, label, title, desc, collapsed, onSignIn }) {
             Sign up
           </button>
         </div>
+      </ViewportLayer>
       }
     </div>);
 
@@ -778,9 +787,11 @@ function CollapsedRailTip({ collapsed }) {
   }, [collapsed]);
   if (!collapsed || !tip) return null;
   return (
-    <div className="rail-tip" style={{ top: tip.top, left: tip.left }}>
-      {tip.label}
-    </div>);
+    <ViewportLayer>
+      <div className="rail-tip" style={{ top: tip.top, left: tip.left }}>
+        {tip.label}
+      </div>
+    </ViewportLayer>);
 }
 
 /* === Left rail === */
@@ -1674,7 +1685,8 @@ function App() {
 
       {/* Inline citation popover */}
       {citePop &&
-      <div
+      <ViewportLayer>
+        <div
         className="cite-pop"
         role="dialog"
         style={{ left: Math.max(16, Math.min(citePop.x - 160, window.innerWidth - 336)), top: citePop.y }}
@@ -1693,6 +1705,7 @@ function App() {
             </a>
           </div>
         </div>
+      </ViewportLayer>
       }
     </div>);
 
